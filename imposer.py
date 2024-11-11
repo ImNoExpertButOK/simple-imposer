@@ -5,10 +5,11 @@ from pikepdf import Pdf, Page, Rectangle
 
 class Imposer:
     def __init__(self, path):
-        if Path(path).exists():
-            self.file_path = Path(path)
+        working_file = Path(path)
+        if working_file.exists() and working_file.suffix == ".pdf":
+            self.file_path = working_file
         else:
-            print("--File is not a PDF file or does not exist.")
+            print(f"--File {working_file.name} is not a PDF file or does not exist.")
 
     def fill(self):
         '''
