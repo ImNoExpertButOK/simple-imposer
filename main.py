@@ -15,6 +15,7 @@ if __name__ == "__main__":
 
     for file in args.files:
         pdf = Imposer(file)
+        pdf.impose()
 
         # pdf.split(args.split)
 
