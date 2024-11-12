@@ -57,11 +57,7 @@ class Imposer:
 
     def split(self, signature_length):
         '''
-
-        file = um arquivo pdf a ser dividido
-        signature_length = comprimento dos cadernos em páginas
-
-        Divide um pdf em arquivos com um número fixo de páginas.
+        Splits a PDF file into signatures with the provided signature_length
         '''
 
         filename = self.file_path.stem
