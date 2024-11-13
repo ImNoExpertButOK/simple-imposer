@@ -2,6 +2,7 @@ from pathlib import Path
 from natsort import natsorted
 from pikepdf import Pdf, Page, Rectangle
 
+
 class Imposer:
     def __init__(self, path):
         working_file = Path(path)
@@ -9,7 +10,6 @@ class Imposer:
             self.file_path = working_file
         else:
             print(f"--File {working_file.name} is not a PDF file or does not exist.")
-
 
     def page_dimensions(self):
         """
@@ -50,7 +50,6 @@ class Imposer:
             else:
                 print("--Number of pages is already a multiple of four.")
 
-
     def impose(self):
         """
         A ideia desse algoritmo de imposição gira em
@@ -82,7 +81,7 @@ class Imposer:
 
             output = Pdf.new()
 
-            for i in range(1, int(number_of_pages/2) + 1):
+            for i in range(1, int(number_of_pages / 2) + 1):
 
                 output.add_blank_page(page_size=(width * 2, height))
 
@@ -92,7 +91,7 @@ class Imposer:
                 left_side_area = Rectangle(0, 0, width, height)
                 right_side_area = Rectangle(width, 0, width * 2, height)
 
-                dest_page = Page(output.pages[-1]) # ultima página criada
+                dest_page = Page(output.pages[-1])  # ultima página criada
 
                 if i % 2 == 0:
                     dest_page.add_overlay(pdf.pages[i - 1], left_side_area)
@@ -126,7 +125,7 @@ class Imposer:
             print(f"--Number of document pages not a multiple of {signature_length}")
             print(f"--Last signature will contain {document_pages % signature_length} pages")
 
-        Path(f"{filename}_split").mkdir(parents = True, exist_ok = True)
+        Path(f"{filename}_split").mkdir(parents=True, exist_ok=True)
         print(f"--Number of pages on original file: {document_pages}")
         print(f"--Number of necessary signatures: {signatures}")
 
@@ -138,14 +137,15 @@ class Imposer:
             output.pages.extend(pdf.pages[start:stop])
             output.save(f"{filename}_split/{filename}_split_{i}.pdf")
 
-    def combine(self):
+    def combine(self, list_of_files):
         """
         ----> NOT WORKING
         Combines multiple PDF files into one.
         """
 
         output = Pdf.new()
-        print("--Combinando os seguintes PDFs encontrados:")
+        print("--Combining the following PDFs:")
+
         for file in natsorted(Path(path).glob("*.pdf")):
             print(file.name)
             src = Pdf.open(file)
