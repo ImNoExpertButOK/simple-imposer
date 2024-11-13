@@ -12,9 +12,9 @@ class Imposer:
 
 
     def page_dimensions(self):
-        '''
+        """
         Get the cropbox of the document, in points.
-        '''
+        """
 
         # Get the cropbox of the document, in points.
         pdf = Pdf.open(self.file_path)
@@ -25,10 +25,10 @@ class Imposer:
         return float(dimensions[2]), float(dimensions[3])
 
     def fill(self):
-        '''
+        """
         Checks the number of pages on a file and fills it with blanks
         until it's divisible by four. Modifies file in place!
-        '''
+        """
 
         with Pdf.open(self.file_path, allow_overwriting_input=True) as pdf:
             print(f"--Name of file: {self.file_path.name}")
@@ -52,7 +52,7 @@ class Imposer:
 
 
     def impose(self):
-        '''
+        """
         A ideia desse algoritmo de imposição gira em
         torno do fato de que somados os números das páginas
         de cada spread após imposição, a soma sempre será o mesmo número.
@@ -69,7 +69,7 @@ class Imposer:
         da página atual do total + 1 para conseguir a disposição das páginas,
         e usa a boolean "switch" para alternar o lado em que são posicionadas,
         direita ou esquerda.
-        '''
+        """
 
         print("--Checking if file is file has an appropriate number of pages.")
         self.fill()
@@ -97,19 +97,19 @@ class Imposer:
                 if i % 2 == 0:
                     dest_page.add_overlay(pdf.pages[i - 1], left_side_area)
                     dest_page.add_overlay(pdf.pages[total - i - 1], right_side_area)
-                    print("--Spread:", i, "-" , total - i)
+                    print("--Spread:", i, "-", total - i)
                 else:
                     dest_page.add_overlay(pdf.pages[total - i - 1], left_side_area)
                     dest_page.add_overlay(pdf.pages[i - 1], right_side_area)
-                    print("--Spread:", total - i, "-" , i)
+                    print("--Spread:", total - i, "-", i)
 
             print(f"--Saving file as {filename}_impo.pdf")
             output.save(f"{filename}_impo.pdf")
 
     def split(self, signature_length):
-        '''
+        """
         Splits a PDF file into signatures with the provided signature_length
-        '''
+        """
 
         filename = self.file_path.stem
         pdf = Pdf.open(self.file_path)
@@ -139,10 +139,10 @@ class Imposer:
             output.save(f"{filename}_split/{filename}_split_{i}.pdf")
 
     def combine(self):
-        '''
+        """
         ----> NOT WORKING
         Combines multiple PDF files into one.
-        '''
+        """
 
         output = Pdf.new()
         print("--Combinando os seguintes PDFs encontrados:")
