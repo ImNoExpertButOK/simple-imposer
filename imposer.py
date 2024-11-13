@@ -146,9 +146,13 @@ class Imposer:
         output = Pdf.new()
         print("--Combining the following PDFs:")
 
-        for file in natsorted(Path(path).glob("*.pdf")):
-            print(file.name)
-            src = Pdf.open(file)
-            output.pages.extend(src.pages)
+        for file in natsorted(list_of_files):
+            print(Path(file))
+
+        # for file in natsorted(Path(path).glob("*.pdf")):
+        #     print(file.name)
+        #     src = Pdf.open(file)
+        #     output.pages.extend(src.pages)
+
         print("--Gerando arquivo final")
-        output.save("combined_output.pdf")
+        # output.save("combined_output.pdf")

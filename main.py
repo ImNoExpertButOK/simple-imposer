@@ -13,11 +13,12 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    for file in args.files:
-        pdf = Imposer(file)
-        pdf.impose()
+    # Imposer.combine(args.files)
 
-        # pdf.split(args.split)
+    print(args)
+
+    # for file in args.files:
+    #     pdf = Imposer(file)
 
     # file = Imposer(file)
     # file.fill()
