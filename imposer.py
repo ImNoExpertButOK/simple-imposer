@@ -43,7 +43,9 @@ class Imposer:
             height = float(dimensions[3])
 
             if len(pdf.pages) % 4 != 0:
-                print("--Number of pages not divisible by four. Filling up until divisible.")
+                print(
+                    "--Number of pages not divisible by four. Filling up until divisible."
+                )
                 while len(pdf.pages) % 4 != 0:
                     pdf.add_blank_page(page_size=(width, height))
                 pdf.save(self.file_path)
@@ -82,7 +84,6 @@ class Imposer:
             output = Pdf.new()
 
             for i in range(1, int(number_of_pages / 2) + 1):
-
                 output.add_blank_page(page_size=(width * 2, height))
 
                 index = pdf.pages[i - 1]
@@ -123,7 +124,9 @@ class Imposer:
         else:
             signatures = int(document_pages / signature_length) + 1
             print(f"--Number of document pages not a multiple of {signature_length}")
-            print(f"--Last signature will contain {document_pages % signature_length} pages")
+            print(
+                f"--Last signature will contain {document_pages % signature_length} pages"
+            )
 
         Path(f"{filename}_split").mkdir(parents=True, exist_ok=True)
         print(f"--Number of pages on original file: {document_pages}")
@@ -137,22 +140,31 @@ class Imposer:
             output.pages.extend(pdf.pages[start:stop])
             output.save(f"{filename}_split/{filename}_split_{i}.pdf")
 
-    def combine(self, list_of_files):
+    @staticmethod
+    def combine(targets):
         """
-        ----> NOT WORKING
-        Combines multiple PDF files into one.
+        TODO:
+        - Checar se targets é uma pasta.
+        - Listar todos os arquivos e pedir confirmação.
+        - Último arquivo da lista é output.
         """
 
-        output = Pdf.new()
+        # if Path(targets).is_dir():
+        # print("--Provided target is a folder. Will merge all pdf files found inside.")
+        output_name = targets[-1]
+        targets = targets[0:-1]
         print("--Combining the following PDFs:")
 
-        for file in natsorted(list_of_files):
-            print(Path(file))
+        output = Pdf.new()
 
-        # for file in natsorted(Path(path).glob("*.pdf")):
-        #     print(file.name)
-        #     src = Pdf.open(file)
-        #     output.pages.extend(src.pages)
+        for file in natsorted(targets):
+            if Path(file).suffix == ".pdf":
+                print(Path(file))
+                src = Pdf.open(file)
+                output.pages.extend(src.pages)
+            else:
+                print(f"--File {file} is not a PDF. Skipping.")
+                pass
 
-        print("--Gerando arquivo final")
-        # output.save("combined_output.pdf")
+        print(f"--Gerando arquivo final {output_name}")
+        output.save(output_name)
